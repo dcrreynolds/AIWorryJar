@@ -289,4 +289,4 @@ __pycache__/
 *.xsd.cs
 
 # project additions
-AIWorryJar/appsettings.json
+AIWorryJar/appsettings.Development.json
