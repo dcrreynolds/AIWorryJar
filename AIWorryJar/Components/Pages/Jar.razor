@@ -1,3 +1,6 @@
+@using ChatGPT.Net;
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 @page "/jar"
 @rendermode InteractiveServer
 
@@ -8,6 +11,8 @@
 
 <button class="btn btn-primary" @onclick="LetItGoClicked">Let it go</button>
 
+<p>@gptResponse</p>
+
 @code {
     private string textareaValue
     {
@@ -16,8 +21,12 @@
         set { }
     }
 
-    private void LetItGoClicked()
+    private string gptResponse = "";
+
+    private async Task LetItGoClicked()
     {
-        Console.WriteLine("My debug output.");
+        var bot = new ChatGpt(Configuration["OPENAI_API_KEY"]);
+
+        gptResponse = await bot.Ask("You are a worry jar and I just told you my worries. in a short sentence tell me everything will be ok.");
     }
 }
