@@ -4,12 +4,14 @@
 @page "/jar"
 @rendermode InteractiveServer
 
-<PageTitle>Jar</PageTitle>
+<PageTitle>AIWorryJar</PageTitle>
 
 <p>Tell me about what is worrying you.</p>
-<textarea id="jar" name="jar" rows="4" placeholder="Let it out, then let it go." @bind=@textareaValue />
+<textarea id="jar" name="jar" rows="15" class="form-control form-rounded bg-dark text-light" placeholder="Let it out, then let it go." @bind=@textareaValue />
 
-<button class="btn btn-primary" @onclick="LetItGoClicked">Let it go</button>
+<div class="container">
+    <button type="button" class="btn btn-primary btn-lg btn-block mt-1" @onclick="LetItGoClicked">Let it go</button>
+</div>
 
 <p>@gptResponse</p>
 
@@ -25,8 +27,20 @@
 
     private async Task LetItGoClicked()
     {
-        var bot = new ChatGpt(Configuration["OPENAI_API_KEY"]);
+        try{
+            var bot = new ChatGpt(Configuration["OPENAI_API_KEY"]);
 
-        gptResponse = await bot.Ask("You are a worry jar and I just told you my worries. in a short sentence tell me everything will be ok.");
+            gptResponse = await bot.Ask("You are a worry jar and I just told you my worries. In a short sentence tell me everything will be ok.");
+        
+            if(gptResponse == null)
+            {
+                throw new Exception("Failed to get response from GPT.");
+            }
+        }
+        catch
+        {
+            gptResponse = "Everything will be ok. You got this.";
+        }
+        
     }
 }
