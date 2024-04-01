@@ -13,7 +13,7 @@
     <button type="button" class="btn btn-primary btn-lg btn-block mt-1" @onclick="LetItGoClicked">Let it go</button>
 </div>
 
-<p>@gptResponse</p>
+<p class="@visClass">@gptResponse</p>
 
 @code {
     private string textareaValue
@@ -23,7 +23,9 @@
         set { }
     }
 
+    private int time = 5;
     private string gptResponse = "";
+    private string visClass = "hidden";
 
     private async Task LetItGoClicked()
     {
@@ -41,6 +43,16 @@
         {
             gptResponse = "Everything will be ok. You got this.";
         }
-        
+
+        visClass = "visible";
+
+        fadoutGptResponse();
+    }
+
+    public async void fadoutGptResponse()
+    {
+        await Task.Delay(1000 * time);
+        visClass = "hidden";
+        StateHasChanged();
     }
 }
