@@ -1,8 +1,7 @@
+@rendermode InteractiveServer
 @using ChatGPT.Net;
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
-@page "/jar"
-@rendermode InteractiveServer
 
 <PageTitle>AIWorryJar</PageTitle>
 
@@ -32,7 +31,7 @@
         try{
             var bot = new ChatGpt(Configuration["OPENAI_API_KEY"]);
 
-            gptResponse = await bot.Ask("You are a worry jar and I just told you my worries. In a short sentence tell me everything will be ok.");
+            gptResponse = await bot.Ask("You are a worry jar and I just told you my worries. In a short and soothing sentence tell me everything will be ok.");
         
             if(gptResponse == null)
             {
