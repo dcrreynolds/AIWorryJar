@@ -22,8 +22,9 @@
         set { }
     }
 
+    const string gptErrorDefaultResponse = "Everything will be ok. You got this.";
     private int time = 5;
-    private string gptResponse = "";
+    private string gptResponse = gptErrorDefaultResponse;
     private string visClass = "hidden";
 
     private async Task LetItGoClicked()
@@ -40,7 +41,7 @@
         }
         catch
         {
-            gptResponse = "Everything will be ok. You got this.";
+            gptResponse = gptErrorDefaultResponse;
         }
 
         visClass = "visible";
