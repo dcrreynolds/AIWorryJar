@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddSingleton<ChatGptService>(new ChatGptService(builder.Configuration.GetValue<string>("OPENAI_API_KEY")));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
