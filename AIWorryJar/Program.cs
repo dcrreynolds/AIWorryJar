@@ -6,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddSingleton<ChatGptService>(new ChatGptService(builder.Configuration.GetValue<string>("OPENAI_API_KEY")));
+var openApiKey = builder.Configuration.GetValue<string>("OPENAI_API_KEY");
+var prompt = builder.Configuration.GetValue<string>("OPENAI_PROMPT");
+builder.Services.AddSingleton<ChatGptService>(new ChatGptService(openApiKey, prompt));
 
 var app = builder.Build();
 

@@ -2,15 +2,28 @@ using ChatGPT.Net;
 
 public class ChatGptService
 {
-    private ChatGPT.Net.ChatGpt bot;
+    private ChatGPT.Net.ChatGpt _bot;
+    private string _prompt;
+    private string response;
 
-    public ChatGptService(string OpenAIApiKey)
+    public ChatGptService(string OpenAIApiKey, string prompt)
     {
-        bot = new ChatGpt(OpenAIApiKey);
+        _bot = new ChatGpt(OpenAIApiKey);
+        _prompt = prompt;
+
+        GenerateResponse();
     }
 
-    public async Task<string> BotResponse(string prompt)
+    public string BotResponse()
     {
-        return await bot.Ask(prompt);
+        // there is a lag time in crating the response from chatGPT. Trigger a new one and use
+        // the previous one.
+        GenerateResponse();
+        return response;
+    }
+
+    private async Task GenerateResponse()
+    {
+        response = await _bot.Ask(_prompt);
     }
 }
