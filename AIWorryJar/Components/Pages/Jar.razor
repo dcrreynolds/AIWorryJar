@@ -4,7 +4,9 @@
 <PageTitle>AIWorryJar</PageTitle>
 
 <p>Tell me about what is worrying you.</p>
-<textarea id="jar" name="jar" rows="15" class="form-control form-rounded bg-dark text-light" placeholder="Let it out, then let it go." @bind=@textareaValue />
+<textarea id="jar" name="jar" rows="15" 
+    class="form-control form-rounded darkTextArea @textOutClass" placeholder="Let it out, then let it go." 
+    @bind=@textareaValue/>
 
 <div class="container">
     <button type="button" class="btn btn-primary btn-lg btn-block mt-1" @onclick="LetItGoClicked">Let it go</button>
@@ -13,20 +15,15 @@
 <p class="@visClass">@gptResponse</p>
 
 @code {
-    private string textareaValue
-    {
-        get => "";
-
-        set { }
-    }
-
+    private string textareaValue;
     const string gptErrorDefaultResponse = "Everything will be ok. You got this.";
-    private int time = 5;
     private string gptResponse = gptErrorDefaultResponse;
     private string visClass = "hidden";
+    private string textOutClass = "";
 
     private async Task LetItGoClicked()
     {
+        // get gpt response
         try{
             gptResponse = ChatGptService.BotResponse();
         
@@ -40,14 +37,25 @@
             gptResponse = gptErrorDefaultResponse;
         }
 
+        // trigger visual changes
         visClass = "visible";
+        textOutClass = "textOut";
 
-        fadoutGptResponse();
+        // trigger reset of changes
+        FadoutGptResponse();
+        ResetTextArea();
     }
 
-    public async void fadoutGptResponse()
+    public async void ResetTextArea()
     {
-        await Task.Delay(1000 * time);
+        await Task.Delay(1000 * 2);
+        textareaValue = "";
+        textOutClass = "";
+    }
+
+    public async void FadoutGptResponse()
+    {
+        await Task.Delay(1000 * 5);
         visClass = "hidden";
         StateHasChanged();
     }
