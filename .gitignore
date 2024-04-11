@@ -290,3 +290,4 @@ __pycache__/
 
 # project additions
 AIWorryJar/appsettings.Development.json
+AIWorryJar/Properties/ServiceDependencies/aiworryjar - Zip Deploy/profile.arm.json

@@ -2,6 +2,8 @@ using ChatGPT.Net;
 
 public class ChatGptService
 {
+    const string gptErrorDefaultResponse = "Everything will be ok. You got this.";
+
     private ChatGPT.Net.ChatGpt _bot;
     private string _prompt;
     private string response;
@@ -24,6 +26,17 @@ public class ChatGptService
 
     private async Task GenerateResponse()
     {
-        response = await _bot.Ask(_prompt);
+        try{
+             response = await _bot.Ask(_prompt);
+        
+            if(response == null)
+            {
+                throw new Exception("Failed to get response from GPT.");
+            }
+        }
+        catch
+        {
+            response = gptErrorDefaultResponse;
+        }
     }
 }

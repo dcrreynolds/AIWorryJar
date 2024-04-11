@@ -23,19 +23,7 @@
 
     private async Task LetItGoClicked()
     {
-        // get gpt response
-        try{
-            gptResponse = ChatGptService.BotResponse();
-        
-            if(gptResponse == null)
-            {
-                throw new Exception("Failed to get response from GPT.");
-            }
-        }
-        catch
-        {
-            gptResponse = gptErrorDefaultResponse;
-        }
+        gptResponse = ChatGptService.BotResponse();
 
         // trigger visual changes
         visClass = "visible";
