@@ -1,42 +1,52 @@
 using ChatGPT.Net;
+using Microsoft.Extensions.Options;
 
-public class ChatGptService
+namespace AIWorryJar.Services
 {
-    const string gptErrorDefaultResponse = "Everything will be ok. You got this.";
-
-    private ChatGPT.Net.ChatGpt _bot;
-    private string _prompt;
-    private string response;
-
-    public ChatGptService(string OpenAIApiKey, string prompt)
+    public class ChatGptService
     {
-        _bot = new ChatGpt(OpenAIApiKey);
-        _prompt = prompt;
+        const string gptErrorDefaultResponse = "Everything will be ok. You got this.";
 
-        GenerateResponse();
-    }
+        private readonly ChatGptOptions _options;
+        private readonly ChatGPT.Net.ChatGpt _bot;
+        private readonly ILogger<ChatGptService> _logger;
 
-    public string BotResponse()
-    {
-        // there is a lag time in crating the response from chatGPT. Trigger a new one and use
-        // the previous one.
-        GenerateResponse();
-        return response;
-    }
+        private string response;
 
-    private async Task GenerateResponse()
-    {
-        try{
-             response = await _bot.Ask(_prompt);
-        
-            if(response == null)
-            {
-                throw new Exception("Failed to get response from GPT.");
-            }
-        }
-        catch
+        public ChatGptService(IOptions<ChatGptOptions> options, ILogger<ChatGptService> logger)
         {
-            response = gptErrorDefaultResponse;
+            _options = options.Value;
+            _logger = logger;
+
+            _bot = new ChatGpt(_options.OpenAIApiKey);            
+
+            GenerateResponse();
+        }
+
+        public string BotResponse()
+        {
+            // there is a lag time in crating the response from chatGPT. Trigger a new one and use
+            // the previous one.
+            GenerateResponse();
+            return response;
+        }
+
+        private async Task GenerateResponse()
+        {
+            try
+            {
+                response = await _bot.Ask(_options.Prompt);
+
+                if (response == null)
+                {
+                    throw new Exception("Failed to get response from GPT.");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                response = gptErrorDefaultResponse;
+            }
         }
     }
 }
