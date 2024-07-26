@@ -1,5 +1,7 @@
 # AIWorryJar
 
+> The live version of this site it currently offline due to being out of OpenAI credits.
+
 The AI-Based Worry Jar is a comforting digital companion designed to alleviate stress and anxiety. By typing in your worries, you’ll receive personalized responses from an AI powered by OpenAI’s ChatGPT. This project combines the power of natural language processing with the Blazor framework (using C#) to create an interactive and supportive experience.
 
 > Note: This ReadMe was also created with GPT.
