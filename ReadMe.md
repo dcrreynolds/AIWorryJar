@@ -13,7 +13,7 @@ The AI-Based Worry Jar is a comforting digital companion designed to alleviate s
 - Blazor Interface: The user interacts with the worry jar through a Blazor web interface.
 - Privacy: No worries are stored or shared; the AI responds in real time without retaining any personal information.
 
-![homepage](screenshot.png)
+![homepage](demo.gif)
 
 # Acknowledgments
 
